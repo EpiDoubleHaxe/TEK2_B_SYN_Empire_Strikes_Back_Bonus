@@ -10,8 +10,10 @@ SRC =			src/empire.c			\
      			src/init.c				\
      			src/my_rand.c			\
      			src/mutex.c				\
+     			src/init_csfml.c		\
+     			src/csfml.c				\
 
-TEST_SRC =		tests/test_general.c	\
+TEST_SRC =		test_general.c			\
 
 MAIN =		src/main.c
 
@@ -24,13 +26,13 @@ TEST_OBJ =		$(TEST_SRC:.c=.o)
 NAME =		empire
 
 CXXFLAGS = -I ./include
-CPPFLAGS = -I ./include
-LDFLAGS = -L. -lempire -lpthread
+CFLAGS = -I ./include
+LDFLAGS = -lpthread -lcsfml-graphics -lcsfml-window -lm
 
 all:	$(NAME)
 
 $(NAME):	$(OBJ) $(MAIN_OBJ)
-		gcc $(LDFLAGS) $(OBJ) $(MAIN_OBJ) -Wall -Wextra -Werror -o $(NAME)
+		gcc  $(LDFLAGS) $(CFLAGS) $(OBJ) $(MAIN_OBJ) -Wall -Wextra -o $(NAME)
 
 tests_run:   LDFLAGS += -lcriterion -lgcov --coverage
 tests_run:		CFLAGS 	+= -lgcov --coverage

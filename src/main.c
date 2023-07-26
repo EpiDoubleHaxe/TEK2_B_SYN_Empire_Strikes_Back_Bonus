@@ -6,7 +6,6 @@
 */
 
 #include "empire.h"
-#include "extern.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -15,7 +14,6 @@ int main(int argc, char **argv)
     int n_romans = 0;
     int belly_size = 0;
 
-    RCFStartup(argc, argv);
     for (int opt; (opt = getopt(argc, argv, "p:e:")) != -1;) {
         switch (opt) {
         default:
@@ -30,6 +28,5 @@ int main(int argc, char **argv)
     if (n_romans <= 1 || belly_size <= 0)
         return 84;
     n_romans = empire(belly_size, n_romans);
-    RCFCleanup();
     return n_romans;
 }

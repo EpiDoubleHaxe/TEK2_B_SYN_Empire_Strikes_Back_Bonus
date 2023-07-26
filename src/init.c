@@ -12,7 +12,8 @@
 #pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
 
 roman_t *init_roman(
-int belly_size, pthread_mutex_t *mutex_small, pthread_mutex_t *mutex_big)
+int belly_size, pthread_mutex_t *mutex_small, pthread_mutex_t *mutex_big,
+int write_fd, int id, int fork_id_small, int fork_id_big)
 {
     roman_t *roman = calloc(sizeof(roman_t), 1);
 
@@ -26,8 +27,14 @@ int belly_size, pthread_mutex_t *mutex_small, pthread_mutex_t *mutex_big)
     (*roman->rand_seed) = time(NULL) + (unsigned int)(roman);
     roman->fork_small = mutex_small;
     roman->fork_big = mutex_big;
+    roman->fork_small_id = fork_id_small;
+    roman->fork_big_id = fork_id_big;
+    roman->write_fd = write_fd;
+    roman->id = id;
     return roman;
 }
+
+#pragma GCC diagnostic pop
 
 void destroy_roman(roman_t *roman)
 {
@@ -58,5 +65,3 @@ pthread_mutex_t *init_threads(int nb)
             return NULL;
     return NULL;
 }
-
-#pragma GCC diagnostic pop
